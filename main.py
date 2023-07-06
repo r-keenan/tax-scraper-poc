@@ -1,7 +1,15 @@
 import tabula
 import pandas as pd
+import urllib.request
 
-tables = tabula.read_pdf("slstax_rates_7-1-2023.pdf",
+url = 'https://revenue.nebraska.gov/sites/revenue.nebraska.gov/files/doc/slstax_rates_7-1-2023.pdf'
+write_file = 'Nebraska tax rates.pdf'
+
+with urllib.request.urlopen(url) as response, open(write_file, 'wb') as write_file:
+    data = response.read()
+    write_file.write(data)
+
+tables = tabula.read_pdf('Nebraska tax rates.pdf',
                          pages="all", multiple_tables=True)
 
 for df in tables:
